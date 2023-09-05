@@ -1,2 +1,16 @@
-# 1d_vertical_vertices
-1D Vertical Vertices
+# 1D Vertical Vertices
+
+Blender add-on.
+
+Add-on functionality
+-
+Selects all vertices by vertical. Vertices should have nearest x-y projection coordinates.
+
+Blender version
+-
+2.79
+
+Version history
+-
+1.0.0
+- Release

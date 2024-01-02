@@ -14,7 +14,7 @@ bl_info = {
     "name": "Vertical Vertices",
     "description": "Selects all vertices which have nearest coordinates in x-y projection",
     "author": "Nikita Akimov, Paul Kotelevets",
-    "version": (1, 0, 0),
+    "version": (1, 0, 1),
     "blender": (2, 79, 0),
     "location": "View3D > Tool panel > 1D > Vertical Vertices",
     "doc_url": "https://github.com/Korchy/1d_vertical_vertices",
@@ -87,6 +87,19 @@ class VerticalVertices:
         for vertex in obj.data.vertices:
             vertex.select = False
 
+    @staticmethod
+    def ui(layout, context):
+        # ui panel
+        layout.prop(
+            data=context.scene,
+            property='vertical_vertices_threshold'
+        )
+        op = layout.operator(
+            operator='verticalvertices.vertical_verts',
+            icon='LINKED'
+        )
+        op.threshold = context.scene.vertical_vertices_threshold
+
 
 # OPERATORS
 
@@ -119,21 +132,15 @@ class VerticalVertices_PT_panel(Panel):
     bl_category = '1D'
 
     def draw(self, context):
-        layout = self.layout
-        layout.prop(
-            data=context.scene,
-            property='vertical_vertices_threshold'
+        VerticalVertices.ui(
+            layout=self.layout,
+            context=context
         )
-        op = layout.operator(
-            operator='verticalvertices.vertical_verts',
-            icon='LINKED'
-        )
-        op.threshold = context.scene.vertical_vertices_threshold
 
 
 # REGISTER
 
-def register():
+def register(ui=True):
     Scene.vertical_vertices_threshold = FloatProperty(
         name='Threshold',
         default=0.1,
@@ -141,11 +148,13 @@ def register():
         subtype='UNSIGNED'
     )
     register_class(VerticalVertices_OT_vertical_verts)
-    register_class(VerticalVertices_PT_panel)
+    if ui:
+        register_class(VerticalVertices_PT_panel)
 
 
-def unregister():
-    unregister_class(VerticalVertices_PT_panel)
+def unregister(ui=True):
+    if ui:
+        unregister_class(VerticalVertices_PT_panel)
     unregister_class(VerticalVertices_OT_vertical_verts)
     del Scene.vertical_vertices_threshold
 

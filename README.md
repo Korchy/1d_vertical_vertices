@@ -12,6 +12,9 @@ Blender version
 
 Version history
 -
+1.0.2
+- UI improving
+
 1.0.1
 - Integrated to the NA 1D Tools
 

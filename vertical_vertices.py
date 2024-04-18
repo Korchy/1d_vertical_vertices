@@ -14,7 +14,7 @@ bl_info = {
     "name": "Vertical Vertices",
     "description": "Selects all vertices which have nearest coordinates in x-y projection",
     "author": "Nikita Akimov, Paul Kotelevets",
-    "version": (1, 0, 1),
+    "version": (1, 0, 2),
     "blender": (2, 79, 0),
     "location": "View3D > Tool panel > 1D > Vertical Vertices",
     "doc_url": "https://github.com/Korchy/1d_vertical_vertices",
@@ -105,7 +105,8 @@ class VerticalVertices:
 
 class VerticalVertices_OT_vertical_verts(Operator):
     bl_idname = 'verticalvertices.vertical_verts'
-    bl_label = 'Select Verts'
+    bl_label = 'Filter Vertical Vertices'
+    bl_description = 'Filter vertices that have duplicates along the Z axis, except the top one'
     bl_options = {'REGISTER', 'UNDO'}
 
     threshold = FloatProperty(
@@ -143,6 +144,7 @@ class VerticalVertices_PT_panel(Panel):
 def register(ui=True):
     Scene.vertical_vertices_threshold = FloatProperty(
         name='Threshold',
+        description='Radius tolerance',
         default=0.1,
         min=0.0001,
         subtype='UNSIGNED'
